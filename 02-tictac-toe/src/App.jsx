@@ -5,7 +5,7 @@ import './Square'
 import Square from './Square'
 import WinnerModal from './WinnerModal'
 import conffeti from 'canvas-confetti'
-import {TURNS} from './constantes'
+import { TURNS } from './constantes'
 import { checkWinner, checkEndGame } from './utils'
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
   const [board, setBoard] = useState(() => {
     const boardFromStorage = window.localStorage.getItem('board')
     return boardFromStorage ? JSON.parse(boardFromStorage) :
-     Array(9).fill(null)
+      Array(9).fill(null)
   })
   const [turn, setTurn] = useState(() => {
     const turnFromStorage = window.localStorage.getItem('turn')
@@ -38,8 +38,7 @@ function App() {
     })
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
     setTurn(newTurn)
-    window.localStorage.setItem('turn',newTurn)
-    
+    window.localStorage.setItem('turn', newTurn)
   }
 
   function resetgame() {
