@@ -1,8 +1,10 @@
 
-export default function Square ({children, index, updateBoard }) {
+export default function Square ({children, index, updateBoard, isSelected}) {
+
+    const className = `square ${isSelected && 'is-selected'} ` 
 
     return (
-        <div key={index} className='square' onClick={()=> updateBoard(index) } >{children} </div>
+        <div key={index} className= {className} onClick={()=> updateBoard(index) } >{children} </div>
     )
 
 }
