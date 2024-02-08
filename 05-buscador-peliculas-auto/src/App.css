@@ -3,9 +3,38 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    max-width: 1100px;
+    background-color: #21303d;
 }
 
 form    {
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    padding: 0px 26px ;
+}
+
+.movies {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    width: 100%;
+    gap: 16px;
+    text-align: center;
+}
+
+.movie-card {
+font-size:0.7rem;
+}
+
+.movie-title {
+    height: 55px;
 }
