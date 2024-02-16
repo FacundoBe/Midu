@@ -2,7 +2,12 @@ import { useReducer } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 import { type Action, type State } from './types'
-
+import { Container, Row, Col, Form, Stack } from 'react-bootstrap'
+import Button from 'react-bootstrap/Button';
+import { ArrowsIcons } from './components/icons'
+import FromLanguageSelector from './components/FromLanguageSelector'
+import ToLanguageSelector from './components/ToLaguaguageSelector'
+//Reducer
 // 1 create initial state
 const initial_state: State = {
   fromLanguage: 'auto',
@@ -11,12 +16,13 @@ const initial_state: State = {
   result: '',
   loading: false
 }
-
 // 2 create reducer
 function reducer(state: State, action: Action) {
   const { type } = action
 
   if (type === 'INTERCHANGE_LANGUAGUES') {
+    if (state.fromLanguage === 'auto') return state //auto no debe poder intercambiarse a lenguaje de salida
+
     return {
       ...state,
       fromLanguage: state.toLanguage,
@@ -25,6 +31,13 @@ function reducer(state: State, action: Action) {
   }
 
   if (type === 'SET_FROM_LANGUAGE') {
+    if (action.payload === state.toLanguage) {
+      return {  //si quiero elegir el de entrada igual al que esta de salida, me cambia el de salida para que no queden iguales
+        ...state,
+        toLanguage: 'sel',
+        fromLanguage: action.payload
+      }
+    }
     return {
       ...state,
       fromLanguage: action.payload
@@ -32,6 +45,8 @@ function reducer(state: State, action: Action) {
   }
 
   if (type === 'SET_TO_LANGUAGE') {
+    if (action.payload === state.fromLanguage) return state
+
     return {
       ...state,
       toLanguage: action.payload
@@ -65,11 +80,37 @@ function App() {
 
   return (
     <>
-      <h1>Translator clon </h1>
-      <button onClick={() => dispatch({ type: 'SET_FROM_LANGUAGE', payload: 'ingles' })}>
-        Cambiar From language
-      </button>
-      <h2>{state.fromLanguage}</h2>
+      <Container fluid>
+        <h1>Translator clon </h1>
+        <Row>
+          <Col>
+          <Stack gap={2}>
+            <FromLanguageSelector dispatch={dispatch} state={state} />
+            <Form.Control as="textarea"
+              rows={4}
+              placeholder='Introducir Texto'
+              autoFocus
+            />
+            </Stack>
+          </Col>
+
+          <Col xs='auto'>
+            <Button variant='link' disabled={state.fromLanguage === 'auto'}
+              onClick={() => dispatch({ type: 'INTERCHANGE_LANGUAGUES' })}><ArrowsIcons />
+            </Button>
+          </Col>
+
+          <Col>
+            <Stack gap={2}>
+              <ToLanguageSelector dispatch={dispatch} state={state} />
+              <Form.Control as="textarea"
+                placeholder='Traduccion'
+                rows={4}
+              />
+            </Stack>
+          </Col>
+        </Row>
+      </Container>
     </>
   )
 }
