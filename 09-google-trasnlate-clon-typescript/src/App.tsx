@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import { ArrowsIcons } from './components/icons'
 import FromLanguageSelector from './components/FromLanguageSelector'
 import ToLanguageSelector from './components/ToLaguaguageSelector'
+import TextArea from './components/TextArea'
 //Reducer
 // 1 create initial state
 const initial_state: State = {
@@ -84,13 +85,15 @@ function App() {
         <h1>Translator clon </h1>
         <Row>
           <Col>
-          <Stack gap={2}>
-            <FromLanguageSelector dispatch={dispatch} state={state} />
-            <Form.Control as="textarea"
-              rows={4}
-              placeholder='Introducir Texto'
-              autoFocus
-            />
+            <Stack gap={2}>
+              <FromLanguageSelector dispatch={dispatch} state={state} />
+              <TextArea
+                type='from'
+                loading={state.loading}
+                value={state.fromText}
+                dispatch={dispatch} 
+
+              />
             </Stack>
           </Col>
 
