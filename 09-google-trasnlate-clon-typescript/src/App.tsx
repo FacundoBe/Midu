@@ -55,10 +55,11 @@ function reducer(state: State, action: Action) {
   }
 
   if (type === 'SET_FROM_TEXT') {
+    const loadingST = action.payload === ''? false :true // si se vacia la entrada no sale loading
     return {
       ...state,
       fromText: action.payload,
-      loading: true,
+      loading: loadingST,
       result: ''
     }
   }
@@ -92,8 +93,8 @@ function App() {
                 loading={state.loading}
                 value={state.fromText}
                 dispatch={dispatch} 
-
               />
+              {state.fromText}
             </Stack>
           </Col>
 
@@ -106,10 +107,13 @@ function App() {
           <Col>
             <Stack gap={2}>
               <ToLanguageSelector dispatch={dispatch} state={state} />
-              <Form.Control as="textarea"
-                placeholder='Traduccion'
-                rows={4}
+              <TextArea
+                type='to'
+                loading={state.loading}
+                value={state.result}
+                dispatch={dispatch} 
               />
+              {state.result}
             </Stack>
           </Col>
         </Row>
