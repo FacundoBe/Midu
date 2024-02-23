@@ -1,4 +1,4 @@
-import { useReducer } from 'react'
+import { useEffect, useReducer } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 import { type Action, type State } from './types'
@@ -55,7 +55,7 @@ function reducer(state: State, action: Action) {
   }
 
   if (type === 'SET_FROM_TEXT') {
-    const loadingST = action.payload === ''? false :true // si se vacia la entrada no sale loading
+    const loadingST = action.payload === '' ? false : true // si se vacia la entrada no sale loading
     return {
       ...state,
       fromText: action.payload,
@@ -80,6 +80,15 @@ function App() {
   // usar el useReducer
   const [state, dispatch] = useReducer(reducer, initial_state)
 
+  useEffect(() => {    // Useffect con debouncer 
+    const callApi = setTimeout(() => {
+      dispatch({ type: 'SET_RESULT', payload: `Proximamente tradución de: "${state.fromText}"` })
+    }, 1000)
+    return () => clearTimeout(callApi)
+  }
+    , [state.fromText])
+
+
   return (
     <>
       <Container fluid>
@@ -92,9 +101,8 @@ function App() {
                 type='from'
                 loading={state.loading}
                 value={state.fromText}
-                dispatch={dispatch} 
+                dispatch={dispatch}
               />
-              {state.fromText}
             </Stack>
           </Col>
 
@@ -111,9 +119,8 @@ function App() {
                 type='to'
                 loading={state.loading}
                 value={state.result}
-                dispatch={dispatch} 
+                dispatch={dispatch}
               />
-              {state.result}
             </Stack>
           </Col>
         </Row>
