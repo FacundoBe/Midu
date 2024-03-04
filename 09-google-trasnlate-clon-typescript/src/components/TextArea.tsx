@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap'
 
 export default function TextArea({ loading, type, value, dispatch }) {
 
-    const commonStyles = {border:0, resize:'none'}
+    const commonStyles = {border:0, resize:'none'};;;
 
     function handleChange(e) {
         if (type === 'from') {
