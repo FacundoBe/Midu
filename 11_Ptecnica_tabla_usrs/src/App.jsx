@@ -9,7 +9,7 @@ function App() {
   const [filasColor, setFilasColor] = useState(false)
 
   useEffect(() => {
-    fetch("https://randomuser.me/api/?results=100")
+    fetch("https://randomuser.me/api/?results=10")
       .then(res => {
         if (res.ok) return res.json()
         else throw new Error(res.status)
@@ -26,13 +26,20 @@ function App() {
   return (
     <>
       <h1>Lista de Usuarios</h1>
-      <div>
+      <header>
         <button onClick={() => setFilasColor(prevCol => !prevCol)}> Colorea filas </button>
-      </div>
+      </header>
+      <main>
       <Table users={users}
         handleDelete={handleDelete}
         filasColor={filasColor}
       />
+      <h1>Lista de Usuarios</h1>
+      <Table users={users}
+        handleDelete={handleDelete}
+        filasColor={filasColor}
+      />
+      </main>
     </>
   )
 }
