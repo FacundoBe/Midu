@@ -1,16 +1,12 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family:  Arial, sans-serif;
   line-height: 1.5;
-  font-weight: 400;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
 }
 
 #root {
@@ -22,9 +18,32 @@
 
 table {
   width: 100%;
+  color: #b7b7b7;
+  font-family:  'Calibri';
+  font-weight: 200;
+}
+
+
+table img {
+  width: 32px;
+  height: fit-content;
+  border-radius: 10%;
+}
+
+
+button {
+  background-color: #0f0f0f;
+  border-radius: 15%;
+  padding: 5px 10px;
+  border: 0;
+  box-shadow: none;
+  color: #b7b7b7 ;
+}
+
+table th {
+ font-weight: 600;
 }
 
 table tr:hover {
-  background-color: rgba(12, 142, 235, 0.515);
+  background-color: rgba(12, 142, 235, 0.515) !important;
 }
-
