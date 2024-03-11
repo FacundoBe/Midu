@@ -47,3 +47,15 @@ table th {
 table tr:hover {
   background-color: rgba(12, 142, 235, 0.515) !important;
 }
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.button-selected {
+  background-color: rgb(79, 81, 81,0.8);
+}
