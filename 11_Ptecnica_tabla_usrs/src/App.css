@@ -31,13 +31,14 @@ table img {
 }
 
 
-button {
+  button {
   background-color: #0f0f0f;
   border-radius: 6px;
   padding: 6px 12px;
   border: 0;
   box-shadow: none;
   color: #b7b7b7 ;
+  cursor:pointer
 }
 
 table th {
@@ -56,6 +57,13 @@ header {
   margin-bottom: 20px;
 }
 
-.button-selected {
-  background-color: rgb(79, 81, 81,0.8);
+.clear-filter {
+  background-color: transparent;
+  color: #b7b7b7 ;
+  width: 15px;
+  padding: 0;
+}
+
+.filter-div{
+  display: flex;
 }

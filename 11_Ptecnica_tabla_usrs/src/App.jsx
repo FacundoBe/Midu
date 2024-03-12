@@ -83,18 +83,22 @@ function App() {
         <button onClick={() => setUsers(originalUsers.current)}>
           Restaurar estado inicial
         </button>
+        <div className='filter-div'>
         <input placeholder='Filtro por pais'
           size={10}
           type="text"
           onChange={handleFilterCountry}
           value={filterCountry}
         />
+        <button className='clear-filter' onClick={() => setFilterCountry('')}>x</button>
+        </div>
       </header>
       <main>
         <Table users={sortedUsers}
           handleDelete={handleDelete}
           filasColor={filasColor}
           setOrderBy={setOrderBy}
+          orderBy={orderBy}
         />
       </main>
     </>
