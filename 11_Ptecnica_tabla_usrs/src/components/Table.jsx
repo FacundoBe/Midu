@@ -1,4 +1,4 @@
-export default function Table({ users, handleDelete, filasColor }) {
+export default function Table({ users, handleDelete, filasColor, setOrderBy }) {
 
     const style1 = { backgroundColor: 'rgba(53, 54, 54, 0.6)' }
     const style2 = { backgroundColor: 'rgb(79, 81, 81,0.8)' }
@@ -8,9 +8,9 @@ export default function Table({ users, handleDelete, filasColor }) {
             <thead>
                 <tr>
                     <th> <strong>Foto</strong></th>
-                    <th> Nombre</th>
-                    <th> Apellido</th>
-                    <th> Pais</th>
+                    <th onClick={()=> setOrderBy('nombre')}> Nombre</th>
+                    <th onClick={()=> setOrderBy('apellido')}> Apellido</th>
+                    <th onClick={()=> setOrderBy('country')}> Pais</th>
                     <th> Acción</th>
                 </tr>
             </thead>

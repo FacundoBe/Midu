@@ -5,7 +5,7 @@ import Table from './components/Table'
 function App() {
   const [users, setUsers] = useState([])
   const [filasColor, setFilasColor] = useState(false)
-  const [orderByCountry, setOrderByCountry] = useState(false)
+  const [orderBy, setOrderBy] = useState('')
   const [filterCountry, setFilterCountry] = useState("")
   const originalUsers = useRef([])
 
@@ -33,11 +33,8 @@ function App() {
     setFilterCountry(e.target.value)
   }
 
-  function sortUsersByCountry(usuarios) {
-    if (orderByCountry) {
-      return [...usuarios].sort((a, b) => a.location.country.localeCompare(b.location.country))
-    }
-    else return usuarios
+  function handleOrderByCountry (){ 
+    setOrderBy(prevOrderBy => (prevOrderBy === 'country' ? '': 'country' ))
   }
 
   //filtro por en base al estado y lo mando a una const
@@ -46,16 +43,24 @@ function App() {
     : users
     , [users, filterCountry])
 
-  // si toca ordeno los usuarios filtrados por pais, uso se memo para no gastar recusos
+  // si toca ordeno los usuarios filtrados por pais o  por la columan elegida, uso se memo para no gastar recusos
   // reordenado cada vez que camibia oreo estado independien com coloerear filas o el filtro por pais
   const sortedUsers = useMemo(() => {
-    if (orderByCountry) {
+    if (orderBy==='country') {
       return [...filteredUsers].sort((a, b) => a.location.country.localeCompare(
         b.location.country))
     }
+    if (orderBy==='nombre') {
+      return [...filteredUsers].sort((a, b) => a.name.first.localeCompare(
+        b.name.first))
+    }
+    if (orderBy==='apellido') {
+      return [...filteredUsers].sort((a, b) => a.name.last.localeCompare(
+        b.name.last))
+    }
     else return filteredUsers
   }
-    , [filteredUsers, orderByCountry]);
+    , [filteredUsers, orderBy]);
 
 
 
@@ -70,10 +75,10 @@ function App() {
           Colorea filas
         </button>
         <button
-          onClick={() => setOrderByCountry(prevOrdr => !prevOrdr)}
+          onClick={handleOrderByCountry}
           style={{ width: '150px' }}
         >
-          {orderByCountry ? 'No ordenar por pais' : 'Ordenar por Pais'}
+          {orderBy==='country'  ? 'No ordenar por pais' : 'Ordenar por Pais'}
         </button>
         <button onClick={() => setUsers(originalUsers.current)}>
           Restaurar estado inicial
@@ -89,6 +94,7 @@ function App() {
         <Table users={sortedUsers}
           handleDelete={handleDelete}
           filasColor={filasColor}
+          setOrderBy={setOrderBy}
         />
       </main>
     </>
