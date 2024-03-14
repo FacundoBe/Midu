@@ -1,4 +1,5 @@
-export default function Table({ users, handleDelete, filasColor, setOrderBy, orderBy }) {
+
+export default function Table({ users, handleDelete, filasColor, setOrderBy, orderBy, loading }) {
 
     const style1 = { backgroundColor: 'rgba(53, 54, 54, 0.6)' }
     const style2 = { backgroundColor: 'rgb(79, 81, 81,0.8)' }
@@ -12,10 +13,10 @@ export default function Table({ users, handleDelete, filasColor, setOrderBy, ord
                         Nombre{orderBy === 'nombre' && '▾'}
                     </th>
                     <th onClick={() => setOrderBy('apellido')} style={{ cursor: "pointer" }}>
-                        Apellido {orderBy==='apellido' && '▾' }
+                        Apellido {orderBy === 'apellido' && '▾'}
                     </th>
                     <th onClick={() => setOrderBy('country')} style={{ cursor: "pointer" }}>
-                        Pais{orderBy==='country' && '▾' }
+                        Pais{orderBy === 'country' && '▾'}
                     </th>
                     <th> Acción</th>
                 </tr>
@@ -37,7 +38,6 @@ export default function Table({ users, handleDelete, filasColor, setOrderBy, ord
                 }
                 )}
             </tbody>
-
         </table>
     )
 }

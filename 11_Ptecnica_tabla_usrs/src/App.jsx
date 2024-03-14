@@ -8,9 +8,13 @@ function App() {
   const [orderBy, setOrderBy] = useState('')
   const [filterCountry, setFilterCountry] = useState("")
   const originalUsers = useRef([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
 
 
   useEffect(() => {
+    setLoading(true) // Indico que comienza a cargar datos justo antes del fetch
+    setError(null) // Reseteo el error para esta vuelta de fetch
     fetch("https://randomuser.me/api/?results=10")
       .then(res => {
         if (res.ok) return res.json()
@@ -20,7 +24,11 @@ function App() {
         setUsers(userData.results)
         originalUsers.current = userData.results
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+        setError(true)
+      })
+      .finally(() => setLoading(false))
   }
     , [])
 
@@ -33,8 +41,8 @@ function App() {
     setFilterCountry(e.target.value)
   }
 
-  function handleOrderByCountry (){ 
-    setOrderBy(prevOrderBy => (prevOrderBy === 'country' ? '': 'country' ))
+  function handleOrderByCountry() {
+    setOrderBy(prevOrderBy => (prevOrderBy === 'country' ? '' : 'country'))
   }
 
   //filtro por en base al estado y lo mando a una const
@@ -43,18 +51,18 @@ function App() {
     : users
     , [users, filterCountry])
 
-  // si toca ordeno los usuarios filtrados por pais o  por la columan elegida, uso se memo para no gastar recusos
+  // si toca ordeno los usuarios filtrados por pais o por la columan elegida, uso se memo para no gastar recusos
   // reordenado cada vez que camibia oreo estado independien com coloerear filas o el filtro por pais
   const sortedUsers = useMemo(() => {
-    if (orderBy==='country') {
+    if (orderBy === 'country') {
       return [...filteredUsers].sort((a, b) => a.location.country.localeCompare(
         b.location.country))
     }
-    if (orderBy==='nombre') {
+    if (orderBy === 'nombre') {
       return [...filteredUsers].sort((a, b) => a.name.first.localeCompare(
         b.name.first))
     }
-    if (orderBy==='apellido') {
+    if (orderBy === 'apellido') {
       return [...filteredUsers].sort((a, b) => a.name.last.localeCompare(
         b.name.last))
     }
@@ -78,28 +86,35 @@ function App() {
           onClick={handleOrderByCountry}
           style={{ width: '150px' }}
         >
-          {orderBy==='country'  ? 'No ordenar por pais' : 'Ordenar por Pais'}
+          {orderBy === 'country' ? 'No ordenar por pais' : 'Ordenar por Pais'}
         </button>
         <button onClick={() => setUsers(originalUsers.current)}>
           Restaurar estado inicial
         </button>
         <div className='filter-div'>
-        <input placeholder='Filtro por pais'
-          size={10}
-          type="text"
-          onChange={handleFilterCountry}
-          value={filterCountry}
-        />
-        <button className='clear-filter' onClick={() => setFilterCountry('')}>x</button>
+          <input placeholder='Filtro por pais'
+            size={10}
+            type="text"
+            onChange={handleFilterCountry}
+            value={filterCountry}
+          />
+          <button className='clear-filter' onClick={() => setFilterCountry('')}>x</button>
         </div>
       </header>
       <main>
-        <Table users={sortedUsers}
+
+        {loading && <p> Cargando </p>}
+
+        {!loading && error && users.length === 0 && <p>Se produjo un error al cargar los datos </p>}
+
+        {!loading && !error && users.length > 0  && <Table users={sortedUsers}
           handleDelete={handleDelete}
           filasColor={filasColor}
           setOrderBy={setOrderBy}
           orderBy={orderBy}
-        />
+          loading={loading}
+        />}
+
       </main>
     </>
   )
