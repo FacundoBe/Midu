@@ -10,19 +10,27 @@ function App() {
   const originalUsers = useRef([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
+  const [currentPage, setCurrenrPage] = useState(1)
 
+  async function fetchUsers() {
+    return await fetch(`https://randomuser.me/api/?results=10&seed=midudev&page=${currentPage}`)
+    .then(res => {
+      if (res.ok) return res.json()
+      else throw new Error(res.status)
+    }).then(data => data.results)
+  }
 
   useEffect(() => {
     setLoading(true) // Indico que comienza a cargar datos justo antes del fetch
     setError(null) // Reseteo el error para esta vuelta de fetch
-    fetch("https://randomuser.me/api/?results=10")
-      .then(res => {
-        if (res.ok) return res.json()
-        else throw new Error(res.status)
-      })
+    fetchUsers(currentPage)
       .then(userData => {
-        setUsers(userData.results)
-        originalUsers.current = userData.results
+        setUsers(prevUsers => {
+          const newUsers = [...prevUsers, ...userData]
+          originalUsers.current = newUsers
+          return newUsers
+        })
+
       })
       .catch(err => {
         console.log(err)
@@ -30,7 +38,7 @@ function App() {
       })
       .finally(() => setLoading(false))
   }
-    , [])
+    , [currentPage])
 
 
   function handleDelete(uuid) {
@@ -103,17 +111,19 @@ function App() {
       </header>
       <main>
 
+
+
+        {users.length > 0 && <Table users={sortedUsers}
+          handleDelete={handleDelete} filasColor={filasColor}
+          setOrderBy={setOrderBy} orderBy={orderBy} loading={loading}
+        />}
         {loading && <p> Cargando </p>}
 
         {!loading && error && users.length === 0 && <p>Se produjo un error al cargar los datos </p>}
 
-        {!loading && !error && users.length > 0  && <Table users={sortedUsers}
-          handleDelete={handleDelete}
-          filasColor={filasColor}
-          setOrderBy={setOrderBy}
-          orderBy={orderBy}
-          loading={loading}
-        />}
+        {!loading && !error && <button onClick={() => setCurrenrPage(prevCurrPage => prevCurrPage + 1)}>
+          Cargar mas resultados
+        </button>}
 
       </main>
     </>
