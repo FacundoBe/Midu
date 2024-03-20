@@ -8,7 +8,8 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #313030;
-  
+
+  --red: #ae3636;  
 
 }
 
@@ -18,6 +19,10 @@
   padding: 2rem;
   text-align: center;
   background-color: #242424c5;
+}
+
+h1 {
+padding: 20px;
 }
 
 table {
@@ -36,7 +41,7 @@ table img {
 
 
   button {
-  background-color: #0f0f0f;
+  background-color: var(--red);
   border-radius: 6px;
   padding: 6px 12px;
   border: 0;

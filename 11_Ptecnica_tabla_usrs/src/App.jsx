@@ -18,7 +18,10 @@ function App() {
   const { isIntersecting, ref } = useIntersectionObserver({}) //para saber cuando el div al final
   // de la tabla es visible y ahi cargar mas datos
 
-  console.log(isIntersecting)
+  //pruba de usar Css variables para manejar estilos generales desde el javascript
+  let root = document.querySelector(':root');
+  let rootStyles = getComputedStyle(root);
+  root.style.setProperty('--red', '#3d5375')
 
   async function fetchUsers() {
     return await fetch(`https://randomuser.me/api/?results=10&seed=midudev&page=${currentPage}`)
@@ -55,7 +58,7 @@ function App() {
     }
   }, [isIntersecting, scrollType])
 
-  function handleScrollType () {
+  function handleScrollType() {
     setScrollType(prevType => prevType === 'boton' ? 'infi' : 'boton')
   }
 
@@ -118,6 +121,9 @@ function App() {
           <button onClick={() => setUsers(originalUsers.current)}>
             Restaurar estado inicial
           </button>
+          <button onClick={handleScrollType}>
+            Scroll: {scrollType === 'infi' ? 'infinity' : 'Con boton'}
+          </button>
           <div className='filter-div'>
             <input placeholder='Filtro por pais'
               size={10}
@@ -128,9 +134,7 @@ function App() {
             <button className='clear-filter' onClick={() => setFilterCountry('')}>x</button>
           </div>
         </div>
-        <button onClick={handleScrollType}>
-          Scroll: {scrollType === 'infi' ? 'infinity' : 'Con boton'}
-        </button>
+
       </header>
       <main>
 
